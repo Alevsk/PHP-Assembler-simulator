@@ -1,0 +1,35 @@
+acum:		mov y 200
+			mov 195 y
+finalarray: mov y 209
+			mov 196 y
+init199:	mov y 0
+			mov 199 y
+startarray: mov x 23
+			mov 200 x
+			mov x 12
+			mov 201 x
+			mov x 80
+			mov 202 x
+			mov x 50
+			mov 203 x
+			mov x 70
+			mov 204 x
+			mov x 99
+			mov 205 x
+			mov x 205
+			mov 206 x
+			mov x 17
+			mov 207 x
+			mov x 39
+			mov 208 x
+			mov x 148
+			mov 209 x
+registros:	mov y 195m
+			mov x 200m
+ciclomenor: dec x
+			dec y
+			jz  x 12
+			jz  y 15
+			jmp ciclomenor
+			mov x [y]
+fin:  end

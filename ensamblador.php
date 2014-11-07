@@ -6,8 +6,7 @@ class Parser {
 	//public $assemblerRow = "/^(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+)($|\s)+(x|y|(\d)+|(\d)+m)?)?(\s)*$/"; //simple assembler sintaxis support
 	//public $assemblerRow = "/^(([a-z0-9])+:(\s)*)?(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+)($|\s)+(x|y|(\d)+|(\d)+m)?)?(\s)*$/"; // ^ with tags support
 	//public $assemblerRow = "/^(([a-z0-9])+:(\s)*)?(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+|([a-z0-9])+)($|\s)+(x|y|(\d)+|(\d)+m|([a-z0-9])+)?)?(\s)*$/";
-	public $assemblerRow = "/^(([a-z]+[a-z0-9]*)+:(\s)*)?(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+|([a-z]+[a-z0-9]*)+)($|\s)+(x|y|(\d)+|(\d)+m|([a-z]+[a-z0-9]*)+)?)?(\s)*$/";
-	public $assemblerRow = "/^(([a-z]+[a-z0-9]*)+:(\s)*)?(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+|([a-z]+[a-z0-9]*)+)($|\s)+(x|y|(\d)+|(\d)+m|([a-z]+[a-z0-9]*)+|(\[(x|y)\])?)?)(\s)*$/";
+	public $assemblerRow = "/^(([a-z0-9])+:(\s)*)?(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+|([a-z0-9])+)($|\s)+(x|y|(\d)+|(\d)+m|([a-z0-9])+|(\[(x|y)\]))?)?(\s)*$/";
 
 	public $result;
 	public $instructions = array(
@@ -16,7 +15,7 @@ class Parser {
 		'jmp' => array('#' => array('#' => 1)),
 		'inc' => array('x' => 12, 'y' => 13),
 		'dec' => array('x' => 14, 'y' => 15),
-		'mov' => array('x' => array('#' => 2), 'y' => array('#' => 3), '#' => array('x' => 4, 'y' => 5), 'm' => array('x' => 6, 'y' => 7)),
+		'mov' => array('x' => array('#' => 2), 'y' => array('#' => 3, '[x]' => 18), '#' => array('x' => 4, 'y' => 5), 'm' => array('x' => 6, 'y' => 7),'[x]' => 19),
 		'jz' => array('x' => array('#' => 16), 'y' => array('#' => 17)),
 		'add' => array('x' => array('y' => 8, '#' => 10), 'y' => array('x' => 9, '#' => 11)),
 
@@ -88,7 +87,11 @@ if ($handle) {
 					$tags[$execute['op2']] = null;
 			}
 
-			if(strpos($execute['op2'], 'm') !== FALSE) {
+			if(strpos($execute['op2'], '[x]') !== FALSE) {
+				array_push($program, $parser->instructions[$execute['command']][$execute['op1']][$execute['op2']]);
+			} else if(strpos($execute['op1'], '[x]') !== FALSE) {
+				array_push($program, $parser->instructions[$execute['command']][$execute['op1']]);
+			} else if(strpos($execute['op2'], 'm') !== FALSE) {
 				//$opCode .= $parser->instructions[$execute['command']]['m'][$execute['op1']] . "," . str_replace('m', '', $execute['op2']) . ",";
 				array_push($program, $parser->instructions[$execute['command']]['m'][$execute['op1']], str_replace('m', '', $execute['op2']));
 			} else if(is_numeric($execute['op1'])) {

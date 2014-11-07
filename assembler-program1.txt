@@ -24,12 +24,11 @@ startarray: mov x 23
 			mov 208 x
 			mov x 148
 			mov 209 x
-registros:	mov y 195m
-			mov x 200m
+registros:	mov x 195m
+			mov y [x]
 ciclomenor: dec x
 			dec y
 			jz  x 12
 			jz  y 15
 			jmp ciclomenor
-			mov x [y]
 fin:  end

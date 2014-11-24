@@ -3,10 +3,7 @@
 
 class Parser {
 
-	//public $assemblerRow = "/^(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+)($|\s)+(x|y|(\d)+|(\d)+m)?)?(\s)*$/"; //simple assembler sintaxis support
-	//public $assemblerRow = "/^(([a-z0-9])+:(\s)*)?(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+)($|\s)+(x|y|(\d)+|(\d)+m)?)?(\s)*$/"; // ^ with tags support
-	//public $assemblerRow = "/^(([a-z0-9])+:(\s)*)?(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+|([a-z0-9])+)($|\s)+(x|y|(\d)+|(\d)+m|([a-z0-9])+)?)?(\s)*$/";
-	public $assemblerRow = "/^(([a-z0-9])+:(\s)*)?(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+|([a-z0-9])+)($|\s)+(x|y|(\d)+|(\d)+m|([a-z0-9])+|(\[(x|y)\]))?)?(\s)*$/";
+	public $assemblerRow = "/^(([a-z0-9_])+:(\s)*)?(mov|jmp|add|inc|dec|jz|end)((\s)+(x|y|(\d)+|([a-z0-9_])+)($|\s)+(x|y|(\d)+|(\d)+m|([a-z0-9_])+|(\[(x|y)\]))?)?(\s)*$/";
 
 	public $result;
 	public $instructions = array(
